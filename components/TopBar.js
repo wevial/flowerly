@@ -1,8 +1,9 @@
 import React, { StyleSheet, Button, Text, View } from 'react-native';
+
 import { VIEWS } from '../constants';
+
 import Time from '../components/Time';
-import ModeContext from '../context/ModeContext';
-import { useContext } from 'react';
+import { modeActions, useMode, useModeDispatch } from '../context/ModeContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +17,9 @@ const styles = StyleSheet.create({
   title: { color: '#111' },
 });
 
-const TopBar = ({ mode, setMode }) => {
+const TopBar = () => {
+  const mode = useMode();
+  const dispatch = useModeDispatch();
   console.log('mode', mode);
   return (
     <View style={styles.container}>
@@ -24,7 +27,9 @@ const TopBar = ({ mode, setMode }) => {
       <Time />
       {mode === VIEWS.main && (
         <Button
-          onPress={() => setMode(VIEWS.create)}
+          onPress={() => {
+            dispatch(modeActions.create);
+          }}
           title='Add Reminder'
         />
       )}

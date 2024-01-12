@@ -1,13 +1,16 @@
-import { Text, View } from "react-native";
-import Reminder from "../components/Reminder";
+import { Text, View } from 'react-native';
+import Reminder from '../components/Reminder';
+import { useMode } from '../context/ModeContext';
 
-const Edit = ({ mode, setMode }) => {
+const Edit = () => {
+  const mode = useMode();
   return (
     <View>
       <Text>{mode}</Text>
-      <Reminder mode={mode} setMode={setMode}/>
-      <Reminder mode={mode} setMode={setMode}/>
-      <Reminder mode={mode} setMode={setMode}/>
+      <Reminder />
+      <Reminder />
+      <Reminder />
+      <Text>EditView</Text>
     </View>
   );
 };

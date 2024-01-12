@@ -1,21 +1,13 @@
 import { Text, View } from 'react-native';
 import Reminder from '../components/Reminder';
 
-const Main = ({ mode, setMode }) => {
+const Main = () => {
   return (
     <View>
-      <Reminder
-        mode={mode}
-        setMode={setMode}
-      />
-      <Reminder
-        mode={mode}
-        setMode={setMode}
-      />
-      <Reminder
-        mode={mode}
-        setMode={setMode}
-      />
+      <Reminder />
+      <Reminder />
+      <Reminder />
+      <Text>MainView</Text>
     </View>
   );
 };

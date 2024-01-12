@@ -1,17 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useReducer, useState } from 'react';
+import React, { useContext, useMemo, useReducer, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import TopBar from './components/TopBar';
-import MainView from './views/Main';
-import EditView from './views/Edit';
+import SelectedView from './views';
+// import MainView from './views/Main';
+// import EditView from './views/Edit';
 
 import { VIEWS } from './constants';
-import {
-  ModeContext,
-  ModeContextDispatch,
-  modeReducer,
-} from './context/ModeContext';
+import { ModeProvider, useMode } from './context/ModeContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,21 +20,20 @@ const styles = StyleSheet.create({
 });
 
 export default App = () => {
-  const [mode, dispatch] = useReducer(modeReducer, VIEWS.main);
-  // const mode = useContext(ModeContext);
-  // const [mode, setMode] = useState(VIEWS.main);
-
-  const SelectedView = mode === VIEWS.main ? MainView : EditView;
+  // Need to figure out how to use the context here to choose which view to display!!
+  // const mode = useMode(); // might not be refreshing well due to provider level. might need to go one level higher.
+  // console.log('MODE!!!', mode);
+  // const SelectedView = mode === VIEWS.main ? MainView : EditView;
 
   return (
-    <ModeContext.Provider>
-      <ModeContextDispatch.Provider>
-        <View style={styles.container}>
-          <StatusBar style='auto' />
-          <TopBar />
-          <SelectedView />
-        </View>
-      </ModeContextDispatch.Provider>
-    </ModeContext.Provider>
+    <ModeProvider>
+      <View style={styles.container}>
+        {/* <Text>MODE: {mode}</Text> */}
+        <StatusBar style='auto' />
+        <TopBar />
+        <SelectedView />
+        <Text>BLERGHY!!</Text>
+      </View>
+    </ModeProvider>
   );
 };
