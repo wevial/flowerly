@@ -3,7 +3,7 @@ import React, { StyleSheet, Button, Text, View } from 'react-native';
 import { VIEWS } from '../constants';
 
 import Time from '../components/Time';
-import { modeActions, useMode, useModeDispatch } from '../context/ModeContext';
+import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,25 +15,34 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   title: { color: '#111' },
+  mode: {
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: '#eee',
+  },
 });
 
 const TopBar = () => {
   const mode = useMode();
   const dispatch = useModeDispatch();
-  console.log('mode', mode);
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Flowerly</Text>
-      <Time />
-      {mode === VIEWS.main && (
-        <Button
-          onPress={() => {
-            dispatch(modeActions.create);
-          }}
-          title='Add Reminder'
-        />
-      )}
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.title}>Flowerly</Text>
+        <Time />
+        {mode === VIEWS.main && (
+          <Button
+            onPress={() => {
+              dispatch(MODE_ACTIONS.create);
+            }}
+            title='Add Reminder'
+          />
+        )}
+      </View>
+      <View style={styles.mode}>
+        <Text>MODE: {mode}</Text>
+      </View>
+    </>
   );
 };
 

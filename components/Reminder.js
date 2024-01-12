@@ -1,6 +1,6 @@
 import React, { StyleSheet, Button, Text, View } from 'react-native';
 import { VIEWS } from '../constants';
-import { modeActions, useMode, useModeDispatch } from '../context/ModeContext';
+import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,7 +21,7 @@ const Reminder = () => {
       <Text>Mode: {mode}</Text>
       <Button
         onPress={() => {
-          dispatch(modeActions.edit);
+          dispatch(MODE_ACTIONS.edit);
         }}
         title='Edit'
       />

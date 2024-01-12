@@ -4,11 +4,10 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import TopBar from './components/TopBar';
 import SelectedView from './views';
-// import MainView from './views/Main';
-// import EditView from './views/Edit';
 
 import { VIEWS } from './constants';
-import { ModeProvider, useMode } from './context/ModeContext';
+import { ModeProvider } from './context/mode';
+import { RemindersProvider } from './context/reminders';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,20 +19,17 @@ const styles = StyleSheet.create({
 });
 
 export default App = () => {
-  // Need to figure out how to use the context here to choose which view to display!!
-  // const mode = useMode(); // might not be refreshing well due to provider level. might need to go one level higher.
-  // console.log('MODE!!!', mode);
-  // const SelectedView = mode === VIEWS.main ? MainView : EditView;
-
   return (
     <ModeProvider>
-      <View style={styles.container}>
-        {/* <Text>MODE: {mode}</Text> */}
-        <StatusBar style='auto' />
-        <TopBar />
-        <SelectedView />
-        <Text>BLERGHY!!</Text>
-      </View>
+      <RemindersProvider>
+        <View style={styles.container}>
+          {/* <Text>MODE: {mode}</Text> */}
+          <StatusBar style='auto' />
+          <TopBar />
+          <SelectedView />
+          <Text>BLERGHY!!</Text>
+        </View>
+      </RemindersProvider>
     </ModeProvider>
   );
 };
