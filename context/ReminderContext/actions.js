@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { v5 as uuidv5 } from 'uuid';
 
 const CREATE_REMINDER = 'CREATE_REMINDER';
 const GET_ALL_REMINDERS = 'GET_ALL_REMINDERS';
@@ -13,26 +14,30 @@ export const REMINDER_ACTIONS = {
 };
 
 // Reminder actions
-const createReminder = (dispatch) => async (dispatch) => {
+const createReminder = (dispatch) => async (reminder) => {
   try {
-    const reminder = { id: 'reminder1', label: 'begonia listada', period: 3 };
+    // const reminder = { id: 'reminder1', label: 'begonia listada', period: 3 };
+    // ADD FUNCTION TO CREATE/TEST IDS but this should be fine lol
+    let id = uuidv5(reminder.label, uuidv5.URL);
+    reminder.id = id;
     const serialized = JSON.stringify(reminder);
-    await AsyncStorage.setItem('reminder1', serialized);
-    return {
+    await AsyncStorage.setItem(id, serialized);
+    console.log('created reminder', reminder);
+    dispatch({
       type: REMINDER_ACTIONS.CREATE_REMINDER,
-    };
+    });
   } catch (error) {
     console.log('error from creating reminder', error.message);
-    return {
+    dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
-    };
+    });
   }
 };
 
-const getReminder = (dispatch) => async (dispatch) => {
+const getReminder = (dispatch) => async (id) => {
   try {
-    const result = await AsyncStorage.getItem('reminder1');
+    const result = await AsyncStorage.getItem(id);
     const reminder = result ? JSON.parse(result) : null;
     return {
       type: REMINDER_ACTIONS.GET_REMINDER,
@@ -51,23 +56,9 @@ const getReminder = (dispatch) => async (dispatch) => {
 
 // Actions
 const createReminderActions = (dispatch) => ({
-  createReminder: async () => {
-    try {
-      const reminder = { id: 'reminder1', label: 'begonia listada', period: 3 };
-      const serialized = JSON.stringify(reminder);
-      await AsyncStorage.setItem('reminder1', serialized);
-      dispatch({
-        type: REMINDER_ACTIONS.CREATE_REMINDER,
-      });
-    } catch (error) {
-      console.log('error from creating reminder', error.message);
-      dispatch({
-        type: REMINDER_ACTIONS.REMINDER_ERROR,
-        payload: { error: error.message },
-      });
-    }
-  },
-  getReminder: async () => {
+  createReminder: createReminder(dispatch),
+  getReminder: getReminder(dispatch),
+  getBaseReminder: async () => {
     try {
       console.log('getting reminder');
       const result = await AsyncStorage.getItem('reminder1');
