@@ -6,8 +6,10 @@ const EDIT_REMINDER = 'EDIT_REMINDER';
 const GET_ALL_REMINDERS = 'GET_ALL_REMINDERS';
 const GET_REMINDER = 'GET_REMINDER';
 const REMINDER_ERROR = 'REMINDER_ERROR';
+const UPDATE_REMINDER = 'UPDATE_REMINDER';
 
 export const REMINDER_ACTIONS = {
+  UPDATE_REMINDER,
   CREATE_REMINDER,
   EDIT_REMINDER,
   GET_REMINDER,
@@ -27,10 +29,30 @@ const createReminder = (dispatch) => async (reminder) => {
     console.log('created reminder', reminder);
     dispatch({
       type: REMINDER_ACTIONS.CREATE_REMINDER,
-      reminders: [reminder],
+      reminder,
     });
   } catch (error) {
     console.log('error from creating reminder', error.message);
+    dispatch({
+      type: REMINDER_ACTIONS.REMINDER_ERROR,
+      payload: { error: error.message },
+    });
+  }
+};
+
+// TODO: Combine create and update reminder functions/actions. Just check if it has an id or not
+const updateReminder = (dispatch) => async (reminder) => {
+  try {
+    const serialized = JSON.stringify(reminder);
+    await AsyncStorage.setItem(reminder.id, serialized);
+    console.log('updated reminder', reminder);
+    dispatch({
+      type: REMINDER_ACTIONS.UPDATE_REMINDER_REMINDER,
+      reminder,
+      reminderToEdit: null,
+    });
+  } catch (error) {
+    console.log('error from updating reminder', error.message);
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
@@ -92,6 +114,7 @@ const getReminder = (dispatch) => async (id) => {
 const createReminderActions = (dispatch) => ({
   createReminder: createReminder(dispatch),
   editReminder: editReminder(dispatch),
+  updateReminder: updateReminder(dispatch),
   getReminder: getReminder(dispatch),
   getAllReminders: getAllReminders(dispatch),
   getBaseReminder: async () => {

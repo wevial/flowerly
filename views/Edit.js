@@ -17,6 +17,7 @@ const Edit = () => {
   const modeDispatch = useModeDispatch();
   const [reminderState, reminderActions] = useContext(RemindersContext);
   const { reminderToEdit } = reminderState;
+
   console.log('reminderToEdit', reminderToEdit.label, reminderToEdit.time);
   const [label, updateLabel] = useState(reminderToEdit.label || '');
   const [time, updateTime] = useState(reminderToEdit.time || '');
@@ -36,9 +37,13 @@ const Edit = () => {
       />
       <Button
         onPress={() => {
-          console.log('updating reminder', id, label, time);
+          console.log('updating reminder', reminderToEdit.id, label, time);
           if (!label || !time) return;
-          reminderActions.createReminder({ label, time });
+          reminderActions.updateReminder({
+            id: reminderToEdit.id,
+            label,
+            time,
+          });
           modeDispatch(MODE_ACTIONS.main);
         }}
         title='Edit'
