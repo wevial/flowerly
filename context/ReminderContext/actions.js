@@ -69,8 +69,13 @@ const createReminderActions = (dispatch) => ({
   },
   getReminder: async () => {
     try {
+      console.log('getting reminder');
       const result = await AsyncStorage.getItem('reminder1');
       const reminder = result ? JSON.parse(result) : null;
+      console.log('reminder', reminder);
+      if (!reminder) {
+        throw 'no reminder found';
+      }
       dispatch({
         type: REMINDER_ACTIONS.GET_REMINDER,
         payload: {
@@ -78,7 +83,7 @@ const createReminderActions = (dispatch) => ({
         },
       });
     } catch (error) {
-      console.log('error from getting reminder', e.message);
+      console.log('error from getting reminder', error.message);
       dispatch({
         type: REMINDER_ACTIONS.REMINDER_ERROR,
         payload: { error: error.message },
