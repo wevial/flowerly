@@ -7,7 +7,7 @@ import SelectedView from './views';
 
 import { VIEWS } from './constants';
 import { ModeProvider } from './context/mode';
-import { RemindersProvider } from './context/reminders';
+import { RemindersProvider } from './context/ReminderContext/reminders';
 
 const styles = StyleSheet.create({
   container: {

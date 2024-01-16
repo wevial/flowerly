@@ -1,19 +1,19 @@
-const initialState = { reminders: [] };
+import { REMINDER_ACTIONS } from './actions';
+
+const initialState = { reminders: [], error: null };
 
 const reducer = (state, action) => {
-  // TODO: use async/await instead of setTimeout
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      switch (action.type) {
-        case 'get':
-          resolve({ ...state, reminders: action.payload });
-          break;
-        default:
-          resolve(state);
-          break;
-      }
-    }, 1000);
-  });
+  const { type, payload } = action;
+  switch (action.type) {
+    case REMINDER_ACTIONS.CREATE_REMINDER:
+      return { ...state, error: null };
+    case REMINDER_ACTIONS.GET_REMINDER:
+      return { ...state, reminders: payload.reminders, error: null };
+    case REMINDER_ACTIONS.REMINDER_ERROR:
+      return { ...state, error: payload.error };
+    default:
+      return state;
+  }
 };
 
 export default reducer;
