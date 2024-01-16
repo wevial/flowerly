@@ -11,13 +11,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const Reminder = () => {
+const Reminder = ({ label, time }) => {
   const mode = useMode();
   const dispatch = useModeDispatch();
 
   return (
     <View style={styles.container}>
-      <Text>Water your plants</Text>
+      <Text>{label}</Text>
+      <Text>{time}</Text>
       <Text>Mode: {mode}</Text>
       <Button
         onPress={() => {

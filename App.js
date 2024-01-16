@@ -25,7 +25,6 @@ export default App = () => {
           <StatusBar style='auto' />
           <TopBar />
           <SelectedView />
-          <Text>BLERGHY!!</Text>
         </View>
       </RemindersProvider>
     </ModeProvider>
