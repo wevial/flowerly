@@ -1,9 +1,9 @@
 import { createContext, useContext, useReducer } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { VIEWS } from '../constants';
+import { VIEWS } from '../../constants';
 
-export const RemindersContext = createContext(VIEWS.main);
+export const RemindersContext = createContext([]);
 export const RemindersDispatchContext = createContext(null);
 
 export const REMINDERS_ACTIONS = {
@@ -14,7 +14,7 @@ export const REMINDERS_ACTIONS = {
 };
 
 export const RemindersProvider = ({ children }) => {
-  const [reminders, dispatch] = useReducer(remindersReducer, VIEWS.main);
+  const [reminders, dispatch] = useReducer(remindersReducer, []);
 
   return (
     <RemindersContext.Provider value={reminders}>
