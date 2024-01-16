@@ -39,6 +39,17 @@ const createReminderReducer = async () => {
   }
 };
 
+// Change to update. Create and update reminders can be the same function tbh
+const updateRemindersReducer = async () => {
+  const reminder = { id: 0, label: 'begonia listada', period: 3 };
+  try {
+    const serialized = JSON.stringify(reminder);
+    await AsyncStorage.setItem('reminder1', serialized);
+  } catch (e) {
+    console.log('error from creating reminder', e);
+  }
+};
+
 const getReminderReducer = async () => {
   try {
     const reminder = await AsyncStorage.getItem('reminder1');
