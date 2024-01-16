@@ -23,17 +23,13 @@ const reducer = (state, action) => {
     case REMINDER_ACTIONS.EDIT_REMINDER:
       console.log(state.reminders);
       const reminderToEdit = state.reminders[payload.id];
-      console.log('editing reminder', reminderToEdit);
+      console.log('editing reminder', Object.keys(reminderToEdit));
       return {
         ...state,
         reminderToEdit,
         error: null,
       };
     case REMINDER_ACTIONS.GET_ALL_REMINDERS:
-      // console.log('GETTING ALL REMINDERS', Object.keys(payload.reminders));
-      // const allReminders = payload.reminders.reduce((acc, reminder) => {
-      // allReminders[reminder.id] = reminder;
-      // }, {});
       return { ...state, reminders: payload.reminders, error: null };
     case REMINDER_ACTIONS.GET_REMINDER:
       return { ...state, reminders: payload.reminders, error: null };

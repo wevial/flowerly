@@ -29,13 +29,14 @@ const TopBar = () => {
     <>
       <View style={styles.container}>
         <Text style={styles.title}>Flowerly</Text>
+        <Text style={styles.title}>{mode}</Text>
         <Time />
         {mode === VIEWS.main && (
           <Button
             onPress={() => {
               dispatch(MODE_ACTIONS.create);
             }}
-            title='Add Reminder'
+            title='Add'
           />
         )}
       </View>

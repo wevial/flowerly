@@ -1,6 +1,8 @@
-import React, { StyleSheet, Button, Text, View } from 'react-native';
+import { StyleSheet, Button, Text, View } from 'react-native';
+import React, { useContext } from 'react';
 import { VIEWS } from '../constants';
 import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
+import { RemindersContext } from '../context/ReminderContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,17 +13,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const Reminder = ({ label, time }) => {
-  const mode = useMode();
+const Reminder = ({ id, label, time }) => {
+  // const mode = useMode();
   const dispatch = useModeDispatch();
+  const [reminderState, reminderActions] = useContext(RemindersContext);
 
   return (
     <View style={styles.container}>
       <Text>{label}</Text>
       <Text>{time}</Text>
-      <Text>Mode: {mode}</Text>
       <Button
         onPress={() => {
+          reminderActions.editReminder(id);
           dispatch(MODE_ACTIONS.edit);
         }}
         title='Edit'

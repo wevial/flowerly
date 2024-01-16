@@ -16,13 +16,16 @@ const Edit = () => {
   const mode = useMode();
   const modeDispatch = useModeDispatch();
   const [reminderState, reminderActions] = useContext(RemindersContext);
-  const [label, updateLabel] = useState('');
-  const [time, updateTime] = useState('');
+  const { reminderToEdit } = reminderState;
+  console.log('reminderToEdit', reminderToEdit.label, reminderToEdit.time);
+  const [label, updateLabel] = useState(reminderToEdit.label || '');
+  const [time, updateTime] = useState(reminderToEdit.time || '');
 
   return (
     <View style={styles.container}>
       <TextInput
         placeholder='Reminder Label'
+        value={label}
         onChangeText={updateLabel}
       />
       <TextInput

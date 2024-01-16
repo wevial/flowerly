@@ -23,6 +23,7 @@ const Create = () => {
     <View style={styles.container}>
       <TextInput
         placeholder='Reminder Label'
+        value={label}
         onChangeText={updateLabel}
       />
       <TextInput
