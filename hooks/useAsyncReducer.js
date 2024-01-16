@@ -4,6 +4,7 @@ export const useAsyncReducer = (reducer, initialState) => {
   const [state, setState] = useState(initialState);
 
   const dispatch = async (action) => {
+    console.log('dispatching', action.type);
     const result = reducer(state, action);
     if (typeof result.then === 'function') {
       try {

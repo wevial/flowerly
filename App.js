@@ -7,7 +7,6 @@ import RemindersProvider from './context/ReminderContext/index';
 
 import TopBar from './components/TopBar';
 import SelectedView from './views';
-import ReminderTest from './components/ReminderTest';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +26,6 @@ export default App = () => {
           <TopBar />
           <SelectedView />
           <Text>BLERGHY!!</Text>
-          <ReminderTest />
         </View>
       </RemindersProvider>
     </ModeProvider>

@@ -25,9 +25,34 @@ const createReminder = (dispatch) => async (reminder) => {
     console.log('created reminder', reminder);
     dispatch({
       type: REMINDER_ACTIONS.CREATE_REMINDER,
+      reminders: [reminder],
     });
   } catch (error) {
     console.log('error from creating reminder', error.message);
+    dispatch({
+      type: REMINDER_ACTIONS.REMINDER_ERROR,
+      payload: { error: error.message },
+    });
+  }
+};
+
+const getAllReminders = (dispatch) => async () => {
+  try {
+    const keys = await AsyncStorage.getAllKeys();
+    const result = await AsyncStorage.multiGet(keys);
+    const reminders = result.map((res) => JSON.parse(res[1]));
+    console.log('\nRETRIEVED ALL REMINDERS', reminders.length);
+    // reminders.forEach((r) => {
+    //   console.log('reminder', r);
+    // });
+    dispatch({
+      type: REMINDER_ACTIONS.GET_ALL_REMINDERS,
+      payload: {
+        reminders,
+      },
+    });
+  } catch (error) {
+    console.log('error from getting reminders', error.message);
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
@@ -58,6 +83,7 @@ const getReminder = (dispatch) => async (id) => {
 const createReminderActions = (dispatch) => ({
   createReminder: createReminder(dispatch),
   getReminder: getReminder(dispatch),
+  getAllReminders: getAllReminders(dispatch),
   getBaseReminder: async () => {
     try {
       console.log('getting reminder');

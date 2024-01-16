@@ -1,12 +1,19 @@
 import { REMINDER_ACTIONS } from './actions';
 
-const initialState = { reminders: [], error: null };
+export const initialState = { reminders: [], error: null };
 
 const reducer = (state, action) => {
   const { type, payload } = action;
+  console.log('REDUCING', type, payload);
   switch (action.type) {
     case REMINDER_ACTIONS.CREATE_REMINDER:
-      return { ...state, error: null };
+      return {
+        ...state,
+        reminders: state.reminders || [] + payload.reminders,
+        error: null,
+      };
+    case REMINDER_ACTIONS.GET_ALL_REMINDERS:
+      return { ...state, reminders: payload.reminders, error: null };
     case REMINDER_ACTIONS.GET_REMINDER:
       return { ...state, reminders: payload.reminders, error: null };
     case REMINDER_ACTIONS.REMINDER_ERROR:
