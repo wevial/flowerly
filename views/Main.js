@@ -7,7 +7,6 @@ const Main = () => {
       <Reminder />
       <Reminder />
       <Reminder />
-      <Text>MainView</Text>
     </View>
   );
 };

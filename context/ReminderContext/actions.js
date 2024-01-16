@@ -51,8 +51,40 @@ const getReminder = (dispatch) => async (dispatch) => {
 
 // Actions
 const createReminderActions = (dispatch) => ({
-  getReminder: getReminder(dispatch),
-  createReminder: createReminder(dispatch),
+  createReminder: async () => {
+    try {
+      const reminder = { id: 'reminder1', label: 'begonia listada', period: 3 };
+      const serialized = JSON.stringify(reminder);
+      await AsyncStorage.setItem('reminder1', serialized);
+      dispatch({
+        type: REMINDER_ACTIONS.CREATE_REMINDER,
+      });
+    } catch (error) {
+      console.log('error from creating reminder', error.message);
+      dispatch({
+        type: REMINDER_ACTIONS.REMINDER_ERROR,
+        payload: { error: error.message },
+      });
+    }
+  },
+  getReminder: async () => {
+    try {
+      const result = await AsyncStorage.getItem('reminder1');
+      const reminder = result ? JSON.parse(result) : null;
+      dispatch({
+        type: REMINDER_ACTIONS.GET_REMINDER,
+        payload: {
+          reminders: [reminder],
+        },
+      });
+    } catch (error) {
+      console.log('error from getting reminder', e.message);
+      dispatch({
+        type: REMINDER_ACTIONS.REMINDER_ERROR,
+        payload: { error: error.message },
+      });
+    }
+  },
 });
 
 export default createReminderActions;
