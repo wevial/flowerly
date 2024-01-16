@@ -2,12 +2,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v5 as uuidv5 } from 'uuid';
 
 const CREATE_REMINDER = 'CREATE_REMINDER';
+const EDIT_REMINDER = 'EDIT_REMINDER';
 const GET_ALL_REMINDERS = 'GET_ALL_REMINDERS';
 const GET_REMINDER = 'GET_REMINDER';
 const REMINDER_ERROR = 'REMINDER_ERROR';
 
 export const REMINDER_ACTIONS = {
   CREATE_REMINDER,
+  EDIT_REMINDER,
   GET_REMINDER,
   GET_ALL_REMINDERS,
   REMINDER_ERROR,
@@ -36,15 +38,22 @@ const createReminder = (dispatch) => async (reminder) => {
   }
 };
 
+const editReminder = (dispatch) => (id) =>
+  dispatch({ type: REMINDER_ACTIONS.EDIT_REMINDER, payload: { id } });
+
 const getAllReminders = (dispatch) => async () => {
   try {
     const keys = await AsyncStorage.getAllKeys();
     const result = await AsyncStorage.multiGet(keys);
-    const reminders = result.map((res) => JSON.parse(res[1]));
-    console.log('\nRETRIEVED ALL REMINDERS', reminders.length);
-    // reminders.forEach((r) => {
-    //   console.log('reminder', r);
-    // });
+    // Unnests arrays of initial array and parses the reminders
+    // const reminders = result.map((res) => JSON.parse(res[1]));
+    const reminders = result
+      .map((res) => JSON.parse(res[1]))
+      .reduce((acc, reminder) => {
+        acc[reminder.id] = reminder;
+        return acc;
+      }, {});
+
     dispatch({
       type: REMINDER_ACTIONS.GET_ALL_REMINDERS,
       payload: {
@@ -82,6 +91,7 @@ const getReminder = (dispatch) => async (id) => {
 // Actions
 const createReminderActions = (dispatch) => ({
   createReminder: createReminder(dispatch),
+  editReminder: editReminder(dispatch),
   getReminder: getReminder(dispatch),
   getAllReminders: getAllReminders(dispatch),
   getBaseReminder: async () => {
