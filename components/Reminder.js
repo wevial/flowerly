@@ -29,12 +29,12 @@ const Reminder = ({ id, label, time }) => {
         title='Edit'
       />
 
-      {/* <Button
+      <Button
         onPress={() => {
           reminderActions.deleteReminder(id);
         }}
         title='Delete'
-      /> */}
+      />
     </View>
   );
 };

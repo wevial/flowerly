@@ -8,10 +8,8 @@ export const initialState = {
 };
 
 const createReminderReducer = (state, payload) => {
-  const reminders = state.reminders ? { ...state.reminders } : {};
-  payload.reminders.map((reminder) => {
-    reminders[reminder.id] = reminder;
-  });
+  const reminders = state?.reminders ? { ...state.reminders } : {};
+  reminders[payload.reminder.id] = payload.reminder;
   return {
     ...state,
     reminders,
@@ -20,10 +18,9 @@ const createReminderReducer = (state, payload) => {
 };
 
 const updateReminderReducer = (state, payload) => {
-  const reminders = state.reminders ? { ...state.reminders } : {};
+  const reminders = state?.reminders ? { ...state.reminders } : {};
   reminders[payload.reminder.id] = payload.reminder;
   return {
-    ...state,
     reminders,
     selectedReminder: null,
     error: null,
@@ -31,10 +28,10 @@ const updateReminderReducer = (state, payload) => {
 };
 
 const deleteReminderReducer = (state, payload) => {
-  console.log('deleting reminder REDUCER', payload.id);
+  const reminders = state?.reminders ? { ...state.reminders } : {};
+  delete reminders[payload.id];
   return {
-    ...state,
-    reminders: {},
+    reminders,
     selectedReminder: null,
     error: null,
   };
@@ -79,30 +76,5 @@ const reducer = createReducer(initialState, {
   [REMINDER_ACTIONS.GET_REMINDER]: getReminderReducer,
   [REMINDER_ACTIONS.REMINDER_ERROR]: reminderErrorReducer,
 });
-
-// const reducer = (state = initialState, action) => {
-//   const { type, payload } = action;
-//   console.log('\n\nREDUCING', type /* , payload */);
-//   switch (action.type) {
-//     case REMINDER_ACTIONS.CREATE_REMINDER:
-//       return createReminderReducer(state, payload);
-//     case REMINDER_ACTIONS.UPDATE_REMINDER:
-//       return updateReminderReducer(state, payload);
-//     case REMINDER_ACTIONS.DELETE_REMINDER:
-//       return deleteReminderReducer(state, payload);
-//     case REMINDER_ACTIONS.SELECT_REMINDER:
-//       return selectedReminderReducer(state, payload);
-//     case REMINDER_ACTIONS.RESET_SELECTED_REMINDER:
-//       return resetSelectedReminderReducer(state);
-//     case REMINDER_ACTIONS.GET_ALL_REMINDERS:
-//       return getAllRemindersReducer(state, payload);
-//     case REMINDER_ACTIONS.GET_REMINDER:
-//       return getReminderReducer(state, payload);
-//     case REMINDER_ACTIONS.REMINDER_ERROR:
-//       return reminderErrorReducer(state, payload);
-//     default:
-//       return state;
-//   }
-// };
 
 export default reducer;

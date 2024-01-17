@@ -10,16 +10,24 @@ const Main = () => {
     reminderActions.getAllReminders();
   }, []);
 
-  const reminders = Object.keys(reminderState.reminders).map((reminderId) => {
+  const reminders =
+    reminderState &&
+    reminderState.reminders &&
+    typeof reminderState.reminders === 'object'
+      ? reminderState.reminders
+      : {};
+  // const reminders = reminderState?.reminders || {};
+
+  const reminderComponents = Object.keys(reminders).map((reminderId) => {
     return (
       <Reminder
         key={reminderId}
-        {...reminderState.reminders[reminderId]}
+        {...reminders[reminderId]}
       />
     );
   });
 
-  return <View>{reminders}</View>;
+  return <View>{reminderComponents}</View>;
 };
 
 export default Main;

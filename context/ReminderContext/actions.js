@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v5 as uuidv5 } from 'uuid';
-import { createActions } from '../../hooks/createReducer';
 
 const CREATE_REMINDER = 'CREATE_REMINDER';
 const DELETE_REMINDER = 'DELETE_REMINDER';
@@ -33,7 +32,7 @@ const createReminder = (dispatch) => async (reminder) => {
     await AsyncStorage.setItem(id, serialized);
     dispatch({
       type: REMINDER_ACTIONS.CREATE_REMINDER,
-      reminder,
+      payload: { reminder },
     });
   } catch (error) {
     dispatch({
@@ -48,6 +47,7 @@ const deleteReminder = (dispatch) => async (id) => {
     await AsyncStorage.removeItem(id);
     dispatch({
       type: REMINDER_ACTIONS.DELETE_REMINDER,
+      payload: { id },
     });
     // getAllReminders(dispatch);
   } catch (error) {
@@ -64,8 +64,8 @@ const updateReminder = (dispatch) => async (reminder) => {
     const serialized = JSON.stringify(reminder);
     await AsyncStorage.setItem(reminder.id, serialized);
     dispatch({
-      type: REMINDER_ACTIONS.UPDATE_REMINDER_REMINDER,
-      reminder,
+      type: REMINDER_ACTIONS.UPDATE_REMINDER,
+      payload: { reminder },
     });
   } catch (error) {
     dispatch({
