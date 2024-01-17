@@ -42,7 +42,6 @@ const deleteReminder = (dispatch) => async (id) => {
       type: REMINDER_ACTIONS.DELETE_REMINDER,
       payload: { id },
     });
-    // getAllReminders(dispatch);
   } catch (error) {
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,

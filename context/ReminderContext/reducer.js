@@ -20,9 +20,11 @@ const updateReminderReducer = (state, payload) => {
 const deleteReminderReducer = (state, payload) => {
   const reminders = state?.reminders ? { ...state.reminders } : {};
   delete reminders[payload.id];
+  const selectedReminder =
+    state?.selectedReminder?.id === payload.id ? null : state.selectedReminder;
   return {
     reminders,
-    selectedReminder: null,
+    selectedReminder,
     error: null,
   };
 };
