@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v5 as uuidv5 } from 'uuid';
 
 const CREATE_REMINDER = 'CREATE_REMINDER';
+const DELETE_REMINDER = 'DELETE_REMINDER';
 const SELECT_REMINDER = 'SELECT_REMINDER';
 const GET_ALL_REMINDERS = 'GET_ALL_REMINDERS';
 const GET_REMINDER = 'GET_REMINDER';
@@ -10,6 +11,7 @@ const UPDATE_REMINDER = 'UPDATE_REMINDER';
 const RESET_SELECTED_REMINDER = 'RESET_SELECTED_REMINDER';
 
 export const REMINDER_ACTIONS = {
+  DELETE_REMINDER,
   UPDATE_REMINDER,
   CREATE_REMINDER,
   SELECT_REMINDER,
@@ -35,6 +37,22 @@ const createReminder = (dispatch) => async (reminder) => {
     });
   } catch (error) {
     console.log('error from creating reminder', error.message);
+    dispatch({
+      type: REMINDER_ACTIONS.REMINDER_ERROR,
+      payload: { error: error.message },
+    });
+  }
+};
+
+const deleteReminder = (dispatch) => async (id) => {
+  try {
+    await AsyncStorage.removeItem(id);
+    dispatch({
+      type: REMINDER_ACTIONS.DELETE_REMINDER,
+      id,
+    });
+  } catch (error) {
+    console.log('error from deleting reminder', error.message);
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
@@ -114,6 +132,7 @@ const getReminder = (dispatch) => async (id) => {
 // Actions
 const createReminderActions = (dispatch) => ({
   createReminder: createReminder(dispatch),
+  deleteReminder: deleteReminder(dispatch),
   selectReminder: selectReminder(dispatch),
   updateReminder: updateReminder(dispatch),
   resetSelectedReminder: () => {

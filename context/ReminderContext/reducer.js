@@ -18,15 +18,27 @@ const reducer = (state, action) => {
       });
       return {
         ...state,
-        reminders: reminders,
+        reminders,
         error: null,
       };
     case REMINDER_ACTIONS.UPDATE_REMINDER:
       reminders = state.reminders ? { ...state.reminders } : {};
       reminders[payload.reminder.id] = payload.reminder;
       return {
-        reminders: reminders,
+        reminders,
         selectedReminder: null,
+        error: null,
+      };
+    case REMINDER_ACTIONS.DELETE_REMINDER:
+      reminders = state.reminders ? { ...state.reminders } : {};
+      delete reminders[payload.id];
+      return {
+        ...state,
+        reminders,
+        selectedReminder:
+          state.selectedReminder?.id === payload.id
+            ? null
+            : state.selectedReminder,
         error: null,
       };
     case REMINDER_ACTIONS.SELECT_REMINDER:
