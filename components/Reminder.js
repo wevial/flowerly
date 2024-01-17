@@ -6,10 +6,10 @@ import { RemindersContext } from '../context/ReminderContext';
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'space-around',
+    width: '100%',
   },
 });
 
@@ -27,13 +27,6 @@ const Reminder = ({ id, label, time }) => {
           dispatch(MODE_ACTIONS.edit);
         }}
         title='Edit'
-      />
-
-      <Button
-        onPress={() => {
-          reminderActions.deleteReminder(id);
-        }}
-        title='Delete'
       />
     </View>
   );

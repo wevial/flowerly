@@ -20,6 +20,12 @@ const updateReminder = (dispatch) => async (reminder) => {
     if (!reminder.id) {
       let id = uuidv5(reminder.label, uuidv5.URL);
       reminder.id = id;
+      reminder.createdAt = new Date().toISOString();
+    }
+    reminder.updatedAt = new Date().toISOString();
+    if (!reminder.lastReminderAt) {
+      // TODO: Maybe figure out a better thing for this idk
+      reminder.lastReminderAt = new Date().toISOString();
     }
     const serialized = JSON.stringify(reminder);
     await AsyncStorage.setItem(reminder.id, serialized);
