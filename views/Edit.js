@@ -46,10 +46,11 @@ const Edit = () => {
           });
           modeDispatch(MODE_ACTIONS.main);
         }}
-        title='Edit'
+        title='Save'
       />
       <Button
         onPress={() => {
+          reminderActions.cancelEditReminder();
           modeDispatch(MODE_ACTIONS.main);
         }}
         title='Cancel'

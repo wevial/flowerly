@@ -38,6 +38,12 @@ const reducer = (state, action) => {
         reminderToEdit,
         error: null,
       };
+    case REMINDER_ACTIONS.CANCEL_EDIT_REMINDER:
+      return {
+        ...state,
+        reminderToEdit: null,
+        error: null,
+      };
     case REMINDER_ACTIONS.GET_ALL_REMINDERS:
       return { ...state, reminders: payload.reminders, error: null };
     case REMINDER_ACTIONS.GET_REMINDER:

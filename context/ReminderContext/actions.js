@@ -7,11 +7,13 @@ const GET_ALL_REMINDERS = 'GET_ALL_REMINDERS';
 const GET_REMINDER = 'GET_REMINDER';
 const REMINDER_ERROR = 'REMINDER_ERROR';
 const UPDATE_REMINDER = 'UPDATE_REMINDER';
+const CANCEL_EDIT_REMINDER = 'CANCEL_EDIT_REMINDER';
 
 export const REMINDER_ACTIONS = {
   UPDATE_REMINDER,
   CREATE_REMINDER,
   EDIT_REMINDER,
+  CANCEL_EDIT_REMINDER,
   GET_REMINDER,
   GET_ALL_REMINDERS,
   REMINDER_ERROR,
@@ -45,11 +47,10 @@ const updateReminder = (dispatch) => async (reminder) => {
   try {
     const serialized = JSON.stringify(reminder);
     await AsyncStorage.setItem(reminder.id, serialized);
-    console.log('updated reminder', reminder);
+    // console.log('updated reminder', reminder);
     dispatch({
       type: REMINDER_ACTIONS.UPDATE_REMINDER_REMINDER,
       reminder,
-      reminderToEdit: null,
     });
   } catch (error) {
     console.log('error from updating reminder', error.message);
@@ -115,6 +116,9 @@ const createReminderActions = (dispatch) => ({
   createReminder: createReminder(dispatch),
   editReminder: editReminder(dispatch),
   updateReminder: updateReminder(dispatch),
+  cancelEditReminder: () => {
+    dispatch({ type: REMINDER_ACTIONS.CANCEL_EDIT_REMINDER });
+  },
   getReminder: getReminder(dispatch),
   getAllReminders: getAllReminders(dispatch),
   getBaseReminder: async () => {
