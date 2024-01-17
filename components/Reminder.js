@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
 });
 
 const Reminder = ({ id, label, time }) => {
-  // const mode = useMode();
   const dispatch = useModeDispatch();
   const [reminderState, reminderActions] = useContext(RemindersContext);
 
@@ -24,7 +23,7 @@ const Reminder = ({ id, label, time }) => {
       <Text>{time}</Text>
       <Button
         onPress={() => {
-          reminderActions.editReminder(id);
+          reminderActions.selectReminder(id);
           dispatch(MODE_ACTIONS.edit);
         }}
         title='Edit'

@@ -16,11 +16,10 @@ const Edit = () => {
   const mode = useMode();
   const modeDispatch = useModeDispatch();
   const [reminderState, reminderActions] = useContext(RemindersContext);
-  const { reminderToEdit } = reminderState;
+  const { selectedReminder } = reminderState;
 
-  console.log('reminderToEdit', reminderToEdit.label, reminderToEdit.time);
-  const [label, updateLabel] = useState(reminderToEdit.label || '');
-  const [time, updateTime] = useState(reminderToEdit.time || '');
+  const [label, updateLabel] = useState(selectedReminder.label || '');
+  const [time, updateTime] = useState(selectedReminder.time || '');
 
   return (
     <View style={styles.container}>
@@ -37,10 +36,10 @@ const Edit = () => {
       />
       <Button
         onPress={() => {
-          console.log('updating reminder', reminderToEdit.id, label, time);
+          console.log('updating reminder', selectedReminder.id, label, time);
           if (!label || !time) return;
           reminderActions.updateReminder({
-            id: reminderToEdit.id,
+            id: selectedReminder.id,
             label,
             time,
           });
@@ -50,7 +49,7 @@ const Edit = () => {
       />
       <Button
         onPress={() => {
-          reminderActions.cancelEditReminder();
+          reminderActions.resetSelectedReminder();
           modeDispatch(MODE_ACTIONS.main);
         }}
         title='Cancel'

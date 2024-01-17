@@ -2,18 +2,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v5 as uuidv5 } from 'uuid';
 
 const CREATE_REMINDER = 'CREATE_REMINDER';
-const EDIT_REMINDER = 'EDIT_REMINDER';
+const SELECT_REMINDER = 'SELECT_REMINDER';
 const GET_ALL_REMINDERS = 'GET_ALL_REMINDERS';
 const GET_REMINDER = 'GET_REMINDER';
 const REMINDER_ERROR = 'REMINDER_ERROR';
 const UPDATE_REMINDER = 'UPDATE_REMINDER';
-const CANCEL_EDIT_REMINDER = 'CANCEL_EDIT_REMINDER';
+const RESET_SELECTED_REMINDER = 'RESET_SELECTED_REMINDER';
 
 export const REMINDER_ACTIONS = {
   UPDATE_REMINDER,
   CREATE_REMINDER,
-  EDIT_REMINDER,
-  CANCEL_EDIT_REMINDER,
+  SELECT_REMINDER,
+  RESET_SELECTED_REMINDER,
   GET_REMINDER,
   GET_ALL_REMINDERS,
   REMINDER_ERROR,
@@ -61,8 +61,8 @@ const updateReminder = (dispatch) => async (reminder) => {
   }
 };
 
-const editReminder = (dispatch) => (id) =>
-  dispatch({ type: REMINDER_ACTIONS.EDIT_REMINDER, payload: { id } });
+const selectReminder = (dispatch) => (id) =>
+  dispatch({ type: REMINDER_ACTIONS.SELECT_REMINDER, payload: { id } });
 
 const getAllReminders = (dispatch) => async () => {
   try {
@@ -114,10 +114,10 @@ const getReminder = (dispatch) => async (id) => {
 // Actions
 const createReminderActions = (dispatch) => ({
   createReminder: createReminder(dispatch),
-  editReminder: editReminder(dispatch),
+  selectReminder: selectReminder(dispatch),
   updateReminder: updateReminder(dispatch),
-  cancelEditReminder: () => {
-    dispatch({ type: REMINDER_ACTIONS.CANCEL_EDIT_REMINDER });
+  resetSelectedReminder: () => {
+    dispatch({ type: REMINDER_ACTIONS.RESET_SELECTED_REMINDER });
   },
   getReminder: getReminder(dispatch),
   getAllReminders: getAllReminders(dispatch),

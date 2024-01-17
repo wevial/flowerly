@@ -3,7 +3,7 @@ import { REMINDER_ACTIONS } from './actions';
 export const initialState = {
   reminders: {},
   // TODO: Change to "selectedReminder"
-  reminderToEdit: null,
+  selectedReminder: null,
   error: null,
 };
 
@@ -26,22 +26,22 @@ const reducer = (state, action) => {
       reminders[payload.reminder.id] = payload.reminder;
       return {
         reminders: reminders,
-        reminderToEdit: null,
+        selectedReminder: null,
         error: null,
       };
-    case REMINDER_ACTIONS.EDIT_REMINDER:
+    case REMINDER_ACTIONS.SELECT_REMINDER:
       console.log(state.reminders);
-      const reminderToEdit = state.reminders[payload.id];
-      console.log('editing reminder', Object.keys(reminderToEdit));
+      const selectedReminder = state.reminders[payload.id];
+      console.log('editing reminder', Object.keys(selectedReminder));
       return {
         ...state,
-        reminderToEdit,
+        selectedReminder,
         error: null,
       };
-    case REMINDER_ACTIONS.CANCEL_EDIT_REMINDER:
+    case REMINDER_ACTIONS.RESET_SELECTED_REMINDER:
       return {
         ...state,
-        reminderToEdit: null,
+        selectedReminder: null,
         error: null,
       };
     case REMINDER_ACTIONS.GET_ALL_REMINDERS:
