@@ -7,16 +7,6 @@ export const initialState = {
   error: null,
 };
 
-const createReminderReducer = (state, payload) => {
-  const reminders = state?.reminders ? { ...state.reminders } : {};
-  reminders[payload.reminder.id] = payload.reminder;
-  return {
-    ...state,
-    reminders,
-    error: null,
-  };
-};
-
 const updateReminderReducer = (state, payload) => {
   const reminders = state?.reminders ? { ...state.reminders } : {};
   reminders[payload.reminder.id] = payload.reminder;
@@ -67,7 +57,6 @@ const reminderErrorReducer = (state, payload) => ({
 });
 
 const reducer = createReducer(initialState, {
-  [REMINDER_ACTIONS.CREATE_REMINDER]: createReminderReducer,
   [REMINDER_ACTIONS.UPDATE_REMINDER]: updateReminderReducer,
   [REMINDER_ACTIONS.DELETE_REMINDER]: deleteReminderReducer,
   [REMINDER_ACTIONS.SELECT_REMINDER]: selectedReminderReducer,
