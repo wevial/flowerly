@@ -54,6 +54,13 @@ const Edit = () => {
         }}
         title='Cancel'
       />
+      <Button
+        onPress={() => {
+          reminderActions.deleteReminder(selectedReminder.id);
+          modeDispatch(MODE_ACTIONS.main);
+        }}
+        title='Delete'
+      />
     </View>
   );
 };

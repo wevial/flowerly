@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { v5 as uuidv5 } from 'uuid';
+import { createActions } from '../../hooks/createReducer';
 
 const CREATE_REMINDER = 'CREATE_REMINDER';
 const DELETE_REMINDER = 'DELETE_REMINDER';
@@ -30,13 +31,11 @@ const createReminder = (dispatch) => async (reminder) => {
     reminder.id = id;
     const serialized = JSON.stringify(reminder);
     await AsyncStorage.setItem(id, serialized);
-    console.log('created reminder', reminder);
     dispatch({
       type: REMINDER_ACTIONS.CREATE_REMINDER,
       reminder,
     });
   } catch (error) {
-    console.log('error from creating reminder', error.message);
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
@@ -49,10 +48,9 @@ const deleteReminder = (dispatch) => async (id) => {
     await AsyncStorage.removeItem(id);
     dispatch({
       type: REMINDER_ACTIONS.DELETE_REMINDER,
-      id,
     });
+    // getAllReminders(dispatch);
   } catch (error) {
-    console.log('error from deleting reminder', error.message);
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
@@ -65,13 +63,11 @@ const updateReminder = (dispatch) => async (reminder) => {
   try {
     const serialized = JSON.stringify(reminder);
     await AsyncStorage.setItem(reminder.id, serialized);
-    // console.log('updated reminder', reminder);
     dispatch({
       type: REMINDER_ACTIONS.UPDATE_REMINDER_REMINDER,
       reminder,
     });
   } catch (error) {
-    console.log('error from updating reminder', error.message);
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
@@ -87,7 +83,6 @@ const getAllReminders = (dispatch) => async () => {
     const keys = await AsyncStorage.getAllKeys();
     const result = await AsyncStorage.multiGet(keys);
     // Unnests arrays of initial array and parses the reminders
-    // const reminders = result.map((res) => JSON.parse(res[1]));
     const reminders = result
       .map((res) => JSON.parse(res[1]))
       .reduce((acc, reminder) => {
@@ -102,7 +97,6 @@ const getAllReminders = (dispatch) => async () => {
       },
     });
   } catch (error) {
-    console.log('error from getting reminders', error.message);
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
@@ -121,7 +115,6 @@ const getReminder = (dispatch) => async (id) => {
       },
     };
   } catch (error) {
-    console.log('error from getting reminder', e.message);
     return {
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
@@ -129,40 +122,18 @@ const getReminder = (dispatch) => async (id) => {
   }
 };
 
+const resetSelectedReminder = (dispatch) => () =>
+  dispatch({ type: REMINDER_ACTIONS.RESET_SELECTED_REMINDER });
+
 // Actions
 const createReminderActions = (dispatch) => ({
   createReminder: createReminder(dispatch),
   deleteReminder: deleteReminder(dispatch),
   selectReminder: selectReminder(dispatch),
   updateReminder: updateReminder(dispatch),
-  resetSelectedReminder: () => {
-    dispatch({ type: REMINDER_ACTIONS.RESET_SELECTED_REMINDER });
-  },
+  resetSelectedReminder: resetSelectedReminder(dispatch),
   getReminder: getReminder(dispatch),
   getAllReminders: getAllReminders(dispatch),
-  getBaseReminder: async () => {
-    try {
-      console.log('getting reminder');
-      const result = await AsyncStorage.getItem('reminder1');
-      const reminder = result ? JSON.parse(result) : null;
-      console.log('reminder', reminder);
-      if (!reminder) {
-        throw 'no reminder found';
-      }
-      dispatch({
-        type: REMINDER_ACTIONS.GET_REMINDER,
-        payload: {
-          reminders: [reminder],
-        },
-      });
-    } catch (error) {
-      console.log('error from getting reminder', error.message);
-      dispatch({
-        type: REMINDER_ACTIONS.REMINDER_ERROR,
-        payload: { error: error.message },
-      });
-    }
-  },
 });
 
 export default createReminderActions;
