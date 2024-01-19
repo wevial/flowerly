@@ -1,6 +1,7 @@
-import React, { StyleSheet, Button, Text, View } from 'react-native';
+import React, { StyleSheet, Pressable, Text, View } from 'react-native';
+import Button from './Button';
 
-import { VIEWS } from '../constants';
+import { COLORS, VIEWS } from '../constants';
 
 import Time from '../components/Time';
 import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
@@ -9,16 +10,24 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     flexDirection: 'row',
-    backgroundColor: '#ccc',
     color: '#fff',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingTop: 30,
+    height: 100,
   },
-  title: { color: '#111' },
+  title: {
+    color: COLORS.white,
+    fontFamily: 'Baskerville',
+    fontSize: 30,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+  },
   mode: {
     width: '100%',
     alignItems: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.pink,
   },
 });
 
@@ -28,9 +37,7 @@ const TopBar = () => {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>Flowerly</Text>
-        <Text style={styles.title}>{mode}</Text>
-        <Time />
+        <Text style={styles.title}>✿ Flowerly</Text>
         {mode === VIEWS.main && (
           <Button
             onPress={() => {
@@ -40,9 +47,9 @@ const TopBar = () => {
           />
         )}
       </View>
-      <View style={styles.mode}>
+      {/* <View style={styles.mode}>
         <Text>MODE: {mode}</Text>
-      </View>
+      </View> */}
     </>
   );
 };

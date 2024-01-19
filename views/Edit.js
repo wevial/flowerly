@@ -1,8 +1,10 @@
-import { Button, StyleSheet, TextInput, View, Text } from 'react-native';
+import { StyleSheet, TextInput, View, Text } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { useMode, useModeDispatch, MODE_ACTIONS } from '../context/mode';
 import { RemindersContext } from '../context/ReminderContext';
-import { VIEWS } from '../constants';
+import { COLORS, VIEWS } from '../constants';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,23 +14,21 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 20,
   },
+  buttonContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   input: {
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.white,
     borderWidth: 1,
+    borderColor: COLORS.violet,
     height: 40,
     margin: 10,
     padding: 10,
     width: '80%',
     marginBottom: 30,
-  },
-  button: {
-    width: '80%',
-    border: 1,
-  },
-  deleteButton: {
-    width: '80%',
-    backgroundColor: '#ff0000',
-    border: 1,
+    borderRadius: 4,
   },
 });
 
@@ -50,57 +50,52 @@ const Edit = () => {
 
   return (
     <View style={styles.container}>
-      <Text>What would you like to be reminded of?</Text>
-      <TextInput
-        style={styles.input}
+      <Input
+        label='What would you like to be reminded of?'
         placeholder='Water my Monstera deliciosa'
         value={label}
         onChangeText={updateLabel}
       />
-      <Text>How often would you like to be reminded (in days)?</Text>
-      <TextInput
-        style={styles.input}
+      <Input
+        label='How often would you like to be reminded (in days)?'
         placeholder='3'
         keyboardType='numeric'
         value={time}
         onChangeText={updateTime}
       />
-      <Button
-        style={styles.button}
-        disabled={!label || !time}
-        onPress={() => {
-          if (!label || !time) return;
-          // TODO: add validation in UI
-          const reminder = {
-            label,
-            time,
-          };
-          if (!isCreationMode) {
-            reminder.id = selectedReminder.id;
-          }
-          reminderActions.updateReminder(reminder);
-          modeDispatch(MODE_ACTIONS.main);
-        }}
-        title={isCreationMode ? 'Create' : 'Save'}
-      />
-      {!isCreationMode && (
+      <View style={styles.buttonContainer}>
         <Button
-          style={styles.deleteButton}
+          disabled={!label || !time}
           onPress={() => {
-            reminderActions.deleteReminder(selectedReminder.id);
+            const reminder = {
+              label,
+              time,
+            };
+            if (!isCreationMode) {
+              reminder.id = selectedReminder.id;
+            }
+            reminderActions.updateReminder(reminder);
             modeDispatch(MODE_ACTIONS.main);
           }}
-          title='Delete'
+          title={isCreationMode ? 'Create' : 'Save'}
         />
-      )}
-      <Button
-        style={styles.button}
-        onPress={() => {
-          !isCreationMode && reminderActions.resetSelectedReminder();
-          modeDispatch(MODE_ACTIONS.main);
-        }}
-        title='Cancel'
-      />
+        {!isCreationMode && (
+          <Button
+            onPress={() => {
+              reminderActions.deleteReminder(selectedReminder.id);
+              modeDispatch(MODE_ACTIONS.main);
+            }}
+            title='Delete'
+          />
+        )}
+        <Button
+          onPress={() => {
+            !isCreationMode && reminderActions.resetSelectedReminder();
+            modeDispatch(MODE_ACTIONS.main);
+          }}
+          title='Cancel'
+        />
+      </View>
     </View>
   );
 };
