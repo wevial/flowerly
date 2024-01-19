@@ -21,12 +21,9 @@ const updateReminder = (dispatch) => async (reminder) => {
       let id = uuidv5(reminder.label, uuidv5.URL);
       reminder.id = id;
       reminder.createdAt = new Date().toISOString();
+      reminder.lastNotificationAt = new Date().toISOString();
     }
     reminder.updatedAt = new Date().toISOString();
-    if (!reminder.lastReminderAt) {
-      // TODO: Maybe figure out a better thing for this idk
-      reminder.lastReminderAt = new Date().toISOString();
-    }
     const serialized = JSON.stringify(reminder);
     await AsyncStorage.setItem(reminder.id, serialized);
     dispatch({
@@ -59,6 +56,9 @@ const deleteReminder = (dispatch) => async (id) => {
 const selectReminder = (dispatch) => (id) =>
   dispatch({ type: REMINDER_ACTIONS.SELECT_REMINDER, payload: { id } });
 
+const resetSelectedReminder = (dispatch) => () =>
+  dispatch({ type: REMINDER_ACTIONS.RESET_SELECTED_REMINDER });
+
 const getAllReminders = (dispatch) => async () => {
   try {
     const keys = await AsyncStorage.getAllKeys();
@@ -89,22 +89,19 @@ const getReminder = (dispatch) => async (id) => {
   try {
     const result = await AsyncStorage.getItem(id);
     const reminder = result ? JSON.parse(result) : null;
-    return {
+    dispatch({
       type: REMINDER_ACTIONS.GET_REMINDER,
       payload: {
         reminders: [reminder],
       },
-    };
+    });
   } catch (error) {
-    return {
+    dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
-    };
+    });
   }
 };
-
-const resetSelectedReminder = (dispatch) => () =>
-  dispatch({ type: REMINDER_ACTIONS.RESET_SELECTED_REMINDER });
 
 // Actions
 const createReminderActions = createActions({

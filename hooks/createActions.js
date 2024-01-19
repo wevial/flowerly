@@ -1,3 +1,9 @@
+export const createActionConsts = (actionList = []) =>
+  actionList.reduce((acc, action) => {
+    acc[action] = action;
+    return acc;
+  }, {});
+
 const createActions = (actionList) => (dispatch) => {
   const actions = {};
   Object.entries(actionList).forEach(([key, action]) => {
@@ -5,11 +11,5 @@ const createActions = (actionList) => (dispatch) => {
   });
   return actions;
 };
-
-export const createActionConsts = (actionList = []) =>
-  actionList.reduce((acc, action) => {
-    acc[action] = action;
-    return acc;
-  }, {});
 
 export default createActions;

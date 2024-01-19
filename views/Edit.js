@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     width: '100%',
+    paddingTop: 20,
   },
   input: {
     backgroundColor: '#eee',
@@ -18,6 +19,16 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     width: '80%',
+    marginBottom: 30,
+  },
+  button: {
+    width: '80%',
+    border: 1,
+  },
+  deleteButton: {
+    width: '80%',
+    backgroundColor: '#ff0000',
+    border: 1,
   },
 });
 
@@ -55,6 +66,8 @@ const Edit = () => {
         onChangeText={updateTime}
       />
       <Button
+        style={styles.button}
+        disabled={!label || !time}
         onPress={() => {
           if (!label || !time) return;
           // TODO: add validation in UI
@@ -72,6 +85,7 @@ const Edit = () => {
       />
       {!isCreationMode && (
         <Button
+          style={styles.deleteButton}
           onPress={() => {
             reminderActions.deleteReminder(selectedReminder.id);
             modeDispatch(MODE_ACTIONS.main);
@@ -80,6 +94,7 @@ const Edit = () => {
         />
       )}
       <Button
+        style={styles.button}
         onPress={() => {
           !isCreationMode && reminderActions.resetSelectedReminder();
           modeDispatch(MODE_ACTIONS.main);
