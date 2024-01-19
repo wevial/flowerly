@@ -7,17 +7,43 @@ import Button from '../components/Button';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    width: '100%',
+    paddingVertical: 10,
+    borderBottomColor: COLORS.white,
+    borderBottomWidth: 1,
+  },
+  innerContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    marginVertical: 10,
+    marginTop: 8,
   },
   label: {
     color: COLORS.white,
     fontSize: 20,
+    width: '100%',
+  },
+  frequency: {
+    color: COLORS.peach,
+    fontSize: 12,
+  },
+  nextReminder: {
+    color: COLORS.white,
+    fontSize: 14,
   },
 });
+
+const Divider = () => (
+  <View
+    style={{
+      borderBottomColor: COLORS.white,
+      borderBottomWidth: 1,
+      width: '100%',
+    }}
+  />
+);
 
 const Reminder = ({ id, label, time, idx }) => {
   const dispatch = useModeDispatch();
@@ -25,33 +51,25 @@ const Reminder = ({ id, label, time, idx }) => {
 
   return (
     <>
-      {idx === 0 && (
-        <View
-          style={{
-            borderBottomColor: COLORS.white,
-            borderBottomWidth: 1,
-            width: '100%',
-          }}
-        />
-      )}
+      {idx === 0 && <Divider />}
       <View style={styles.container}>
         <Text style={styles.label}>{label}</Text>
-        <Text style={styles.label}>{time}</Text>
-        <Button
-          onPress={() => {
-            reminderActions.selectReminder(id);
-            dispatch(MODE_ACTIONS.edit);
-          }}
-          title='Edit'
-        />
+        <View style={styles.innerContainer}>
+          <View>
+            <Text style={styles.frequency}>blooming every {time} days ✿</Text>
+            <Text style={styles.nextReminder}>
+              next bloom in {time} days ☀️{' '}
+            </Text>
+          </View>
+          <Button
+            onPress={() => {
+              reminderActions.selectReminder(id);
+              dispatch(MODE_ACTIONS.edit);
+            }}
+            title='Edit'
+          />
+        </View>
       </View>
-      <View
-        style={{
-          borderBottomColor: COLORS.white,
-          borderBottomWidth: 1,
-          width: '100%',
-        }}
-      />
     </>
   );
 };

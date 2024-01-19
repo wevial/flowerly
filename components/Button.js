@@ -11,23 +11,69 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     elevation: 3,
     backgroundColor: COLORS.pink,
+    borderWidth: 1,
+    borderColor: COLORS.pink,
   },
   text: {
     color: COLORS.white,
     fontSize: 16,
     textTransform: 'lowercase',
-    // fontWeight: 'bold',
+  },
+  disabledButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 50,
+    elevation: 3,
+    borderColor: COLORS.pink,
+    borderWidth: 1,
+  },
+  disabledText: {
+    color: COLORS.pink,
+    fontSize: 16,
+    textTransform: 'lowercase',
+  },
+  warningButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 50,
+    elevation: 3,
+    backgroundColor: COLORS.lilac,
+    borderWidth: 1,
+    borderColor: COLORS.lilac,
+  },
+  warningText: {
+    color: COLORS.white,
+    fontSize: 16,
+    textTransform: 'lowercase',
   },
 });
 
-const Button = ({ onPress, title, children }) => (
-  <Pressable
-    style={styles.button}
-    onPress={onPress}
-  >
-    <Text style={styles.text}>{title}</Text>
-    {children}
-  </Pressable>
-);
+const Button = ({ onPress, title, warning = false, ...props }) => {
+  const disabled = props.disabled || false;
+  const buttonStyle = disabled
+    ? styles.disabledButton
+    : warning
+    ? styles.warningButton
+    : styles.button;
+  const textStyle = disabled
+    ? styles.disabledText
+    : warning
+    ? styles.warningText
+    : styles.text;
+
+  return (
+    <Pressable
+      style={buttonStyle}
+      onPress={onPress}
+      {...props}
+    >
+      <Text style={textStyle}>{title}</Text>
+    </Pressable>
+  );
+};
 
 export default Button;

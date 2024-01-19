@@ -19,23 +19,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  input: {
-    backgroundColor: COLORS.white,
-    borderWidth: 1,
-    borderColor: COLORS.violet,
-    height: 40,
-    margin: 10,
-    padding: 10,
-    width: '80%',
-    marginBottom: 30,
-    borderRadius: 4,
-  },
 });
 
 const Edit = () => {
   const mode = useMode();
   const modeDispatch = useModeDispatch();
-  // TODO: Update modes to be consistent with VIEWS
   const isCreationMode = mode === VIEWS.create;
 
   const [reminderState, reminderActions] = useContext(RemindersContext);
@@ -85,6 +73,7 @@ const Edit = () => {
               reminderActions.deleteReminder(selectedReminder.id);
               modeDispatch(MODE_ACTIONS.main);
             }}
+            warning
             title='Delete'
           />
         )}
