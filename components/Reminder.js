@@ -47,7 +47,9 @@ const Divider = () => (
 
 const Reminder = ({ id, label, time, idx }) => {
   const dispatch = useModeDispatch();
-  const [reminderState, reminderActions] = useContext(RemindersContext);
+  const [_, reminderActions] = useContext(RemindersContext);
+  const nextBloomDays = time === '1' ? 'day' : 'days';
+  const bloomFrequency = time === '1' ? 'every day' : `every ${time} days`;
 
   return (
     <>
@@ -56,9 +58,9 @@ const Reminder = ({ id, label, time, idx }) => {
         <Text style={styles.label}>{label}</Text>
         <View style={styles.innerContainer}>
           <View>
-            <Text style={styles.frequency}>blooming every {time} days ✿</Text>
+            <Text style={styles.frequency}>blooming {bloomFrequency} ✿</Text>
             <Text style={styles.nextReminder}>
-              next bloom in {time} days ☀️{' '}
+              next bloom in {time} {nextBloomDays} ☀️
             </Text>
           </View>
           <Button
