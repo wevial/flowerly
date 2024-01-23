@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useContext } from 'react';
+import { differenceInDays } from 'date-fns';
 import { COLORS, VIEWS } from '../constants';
 import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
 import { RemindersContext } from '../context/ReminderContext';
@@ -45,11 +46,31 @@ const Divider = () => (
   />
 );
 
-const Reminder = ({ id, label, time, idx }) => {
+const timeUntilNextBloom = (time, lastNotificationAt) => {
+  const timeNum = parseInt(time);
+  const timeSinceLastNotification = differenceInDays(
+    new Date(),
+    new Date(lastNotificationAt)
+  );
+  if (timeSinceLastNotification >= timeNum) {
+    return 'blooming now! ☀️';
+  }
+  const difference = timeNum - timeSinceLastNotification;
+  const days =
+    difference === 1
+      ? 'tomorrow'
+      : `in ${timeNum - timeSinceLastNotification} days`;
+  return `next bloom ${days} ☀️`;
+};
+
+const Reminder = ({ idx, reminder }) => {
+  const { id, label, time, lastNotificationAt } = reminder;
+  console.log(reminder);
   const dispatch = useModeDispatch();
   const [_, reminderActions] = useContext(RemindersContext);
-  const nextBloomDays = time === '1' ? 'day' : 'days';
   const bloomFrequency = time === '1' ? 'every day' : `every ${time} days`;
+
+  const nextBloomDays = timeUntilNextBloom(time, lastNotificationAt);
 
   return (
     <>
@@ -59,9 +80,7 @@ const Reminder = ({ id, label, time, idx }) => {
         <View style={styles.innerContainer}>
           <View>
             <Text style={styles.frequency}>blooming {bloomFrequency} ✿</Text>
-            <Text style={styles.nextReminder}>
-              next bloom in {time} {nextBloomDays} ☀️
-            </Text>
+            <Text style={styles.nextReminder}>{nextBloomDays}</Text>
           </View>
           <Button
             onPress={() => {

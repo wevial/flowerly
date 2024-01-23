@@ -19,19 +19,16 @@ const Main = () => {
   }, []);
 
   const reminders =
-    reminderState &&
-    reminderState.reminders &&
-    typeof reminderState.reminders === 'object'
+    reminderState?.reminders && typeof reminderState.reminders === 'object'
       ? reminderState.reminders
       : {};
-  // const reminders = reminderState?.reminders || {};
 
   const reminderComponents = Object.keys(reminders).map((reminderId, idx) => {
     return (
       <Reminder
         key={reminderId}
         idx={idx}
-        {...reminders[reminderId]}
+        reminder={reminders[reminderId]}
       />
     );
   });
