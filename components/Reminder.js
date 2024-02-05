@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useContext } from 'react';
-import { differenceInDays } from 'date-fns';
+import { differenceInDays, differenceInHours } from 'date-fns';
 import { COLORS, VIEWS } from '../constants';
 import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
 import { RemindersContext } from '../context/ReminderContext';
@@ -52,10 +52,11 @@ const timeUntilNextBloom = (time, lastNotificationAt) => {
     new Date(),
     new Date(lastNotificationAt)
   );
+
+  const emoji = getBloomEmoji(time, lastNotificationAt);
   if (timeSinceLastNotification >= timeNum) {
-    return 'blooming now! ☀️';
+    return `blooming now! ${emoji}`;
   }
-  const emoji = getBloomEmoji(timeNum, timeSinceLastNotification);
   const difference = timeNum - timeSinceLastNotification;
   const days =
     difference === 1
@@ -64,8 +65,15 @@ const timeUntilNextBloom = (time, lastNotificationAt) => {
   return `next bloom ${days} ${emoji}`;
 };
 
-const getBloomEmoji = (timeNum, timeSinceLastNotification) => {
-  const percentToNextNotification = timeSinceLastNotification / timeNum;
+const getBloomEmoji = (time, lastNotificationAt) => {
+  // using hours for more granularity
+  const timeInHours = parseInt(time) * 24;
+  const timeSinceLastNotification = differenceInHours(
+    new Date(),
+    new Date(lastNotificationAt)
+  );
+
+  const percentToNextNotification = timeSinceLastNotification / timeInHours;
   if (percentToNextNotification >= 1) {
     return '☀️';
   } else if (percentToNextNotification >= 0.75) {
@@ -80,11 +88,9 @@ const getBloomEmoji = (timeNum, timeSinceLastNotification) => {
 
 const Reminder = ({ idx, reminder }) => {
   const { id, label, time, lastNotificationAt } = reminder;
-  console.log(reminder);
   const dispatch = useModeDispatch();
   const [_, reminderActions] = useContext(RemindersContext);
   const bloomFrequency = time === '1' ? 'every day' : `every ${time} days`;
-
   const nextBloomDays = timeUntilNextBloom(time, lastNotificationAt);
 
   return (

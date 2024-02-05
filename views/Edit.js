@@ -55,13 +55,12 @@ const Edit = () => {
         <Button
           disabled={!label || !time}
           onPress={() => {
-            const reminder = {
-              label,
-              time,
-            };
-            if (!isCreationMode) {
-              reminder.id = selectedReminder.id;
-            }
+            const reminder = isCreationMode
+              ? {
+                  label,
+                  time,
+                }
+              : { ...selectedReminder, label, time };
             reminderActions.updateReminder(reminder);
             modeDispatch(MODE_ACTIONS.main);
           }}
