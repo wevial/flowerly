@@ -55,12 +55,27 @@ const timeUntilNextBloom = (time, lastNotificationAt) => {
   if (timeSinceLastNotification >= timeNum) {
     return 'blooming now! ☀️';
   }
+  const emoji = getBloomEmoji(timeNum, timeSinceLastNotification);
   const difference = timeNum - timeSinceLastNotification;
   const days =
     difference === 1
       ? 'tomorrow'
       : `in ${timeNum - timeSinceLastNotification} days`;
-  return `next bloom ${days} ☀️`;
+  return `next bloom ${days} ${emoji}`;
+};
+
+const getBloomEmoji = (timeNum, timeSinceLastNotification) => {
+  const percentToNextNotification = timeSinceLastNotification / timeNum;
+  if (percentToNextNotification >= 1) {
+    return '☀️';
+  } else if (percentToNextNotification >= 0.75) {
+    return '🌤';
+  } else if (percentToNextNotification >= 0.5) {
+    return '⛅️';
+  } else if (percentToNextNotification >= 0.25) {
+    return '🌥';
+  }
+  return '☁️';
 };
 
 const Reminder = ({ idx, reminder }) => {
