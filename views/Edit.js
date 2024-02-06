@@ -1,8 +1,9 @@
 import { StyleSheet, TextInput, View, Text } from 'react-native';
 import React, { useContext, useState } from 'react';
+
 import { useMode, useModeDispatch, MODE_ACTIONS } from '../context/mode';
 import { RemindersContext } from '../context/ReminderContext';
-import { COLORS, VIEWS } from '../constants';
+import { VIEWS } from '../constants';
 import Button from '../components/Button';
 import Input from '../components/Input';
 
@@ -69,10 +70,7 @@ const Edit = () => {
         {!isCreationMode && (
           <Button
             onPress={() => {
-              const result = reminderActions.deleteReminder(
-                selectedReminder.id
-              );
-              console.log(result);
+              reminderActions.deleteReminder(selectedReminder.id);
               modeDispatch(MODE_ACTIONS.main);
             }}
             warning

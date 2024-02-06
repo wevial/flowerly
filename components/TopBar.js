@@ -3,7 +3,6 @@ import Button from './Button';
 
 import { COLORS, VIEWS } from '../constants';
 
-import Time from '../components/Time';
 import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
 import { RemindersContext } from '../context/ReminderContext';
 import { useEffect, useContext } from 'react';
@@ -12,7 +11,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     flexDirection: 'row',
-    color: '#fff',
+    color: COLORS.white,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
 const TopBar = () => {
   const mode = useMode();
   const dispatch = useModeDispatch();
-  const [reminderState, reminderActions] = useContext(RemindersContext);
+  const [_, reminderActions] = useContext(RemindersContext);
 
   useEffect(() => {
     reminderActions.getAllReminders();
@@ -55,9 +54,6 @@ const TopBar = () => {
           />
         )}
       </View>
-      {/* <View style={styles.mode}>
-        <Text>MODE: {mode}</Text>
-      </View> */}
     </>
   );
 };

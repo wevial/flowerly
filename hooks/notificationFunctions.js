@@ -44,7 +44,7 @@ export const registerForPushNotificationsAsync = async () => {
         projectId: Constants.expoConfig.extra.eas.projectId,
       })
     ).data;
-    console.log(token);
+    console.log(token); // TODO: remove
   } else {
     alert('Must use physical device for Push Notifications');
   }
