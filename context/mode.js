@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from 'react';
-import { VIEWS } from '../constants';
+import { VIEWS } from '../utils/constants';
 
 export const ModeContext = createContext(VIEWS.main);
 export const ModeDispatchContext = createContext(null);

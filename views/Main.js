@@ -1,7 +1,8 @@
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
+
 import { RemindersContext } from '../context/ReminderContext';
 import Reminder from '../components/Reminder';
-import React, { useContext, useEffect } from 'react';
 
 const styles = StyleSheet.create({
   container: {

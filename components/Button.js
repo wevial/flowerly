@@ -1,6 +1,6 @@
 import { Pressable, Text } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../constants';
+import { COLORS } from '../utils/constants';
 
 const styles = StyleSheet.create({
   button: {

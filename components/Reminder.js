@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useContext } from 'react';
 import { differenceInDays, differenceInHours } from 'date-fns';
-import { COLORS, VIEWS } from '../constants';
+import { COLORS, VIEWS } from '../utils/constants';
 import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
 import { RemindersContext } from '../context/ReminderContext';
 import Button from '../components/Button';

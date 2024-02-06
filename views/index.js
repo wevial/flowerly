@@ -2,7 +2,7 @@ import React from 'react';
 import Edit from './Edit';
 import Main from './Main';
 import { useMode } from '../context/mode';
-import { VIEWS } from '../constants';
+import { VIEWS } from '../utils/constants';
 
 const SelectedView = () => {
   const mode = useMode();

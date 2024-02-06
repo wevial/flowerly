@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 
 import { useMode, useModeDispatch, MODE_ACTIONS } from '../context/mode';
 import { RemindersContext } from '../context/ReminderContext';
-import { VIEWS } from '../constants';
+import { VIEWS } from '../utils/constants';
 import Button from '../components/Button';
 import Input from '../components/Input';
 

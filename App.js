@@ -5,7 +5,7 @@ import { StyleSheet, View, Text, Button } from 'react-native';
 import {
   registerForPushNotificationsAsync,
   schedulePushNotification,
-} from './hooks/notificationFunctions';
+} from './utils/notificationFunctions';
 
 import { ModeProvider } from './context/mode';
 import RemindersProvider from './context/ReminderContext/index';
@@ -14,7 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import TopBar from './components/TopBar';
 import SelectedView from './views';
-import { COLORS } from './constants';
+import { COLORS } from './utils/constants';
 
 const styles = StyleSheet.create({
   container: {

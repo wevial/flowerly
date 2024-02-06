@@ -1,7 +1,7 @@
 import React, { StyleSheet, Pressable, Text, View } from 'react-native';
 import Button from './Button';
 
-import { COLORS, VIEWS } from '../constants';
+import { COLORS, VIEWS } from '../utils/constants';
 
 import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
 import { RemindersContext } from '../context/ReminderContext';
