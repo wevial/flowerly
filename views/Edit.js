@@ -69,7 +69,10 @@ const Edit = () => {
         {!isCreationMode && (
           <Button
             onPress={() => {
-              reminderActions.deleteReminder(selectedReminder.id);
+              const result = reminderActions.deleteReminder(
+                selectedReminder.id
+              );
+              console.log(result);
               modeDispatch(MODE_ACTIONS.main);
             }}
             warning

@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from 'expo-notifications';
 import { v5 as uuidv5 } from 'uuid';
 
 import createActions, { createActionConsts } from '../../hooks/createActions';
@@ -11,7 +12,31 @@ export const REMINDER_ACTIONS = createActionConsts([
   'GET_REMINDER',
   'GET_ALL_REMINDERS',
   'REMINDER_ERROR',
+  'SET_NOTIFICATION',
 ]);
+
+const createNotification = (dispatch) => async (reminder) => {
+  // TODO: Add logic to check for existing notifications and update them
+  try {
+    const timeInSeconds = parseInt(reminder.time) * 24 * 60 * 60;
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: `${reminder.label}`,
+        body: 'time to attend to your new bloom! 🌸',
+      },
+      trigger: { seconds: timeInSeconds },
+    });
+    dispatch({
+      type: REMINDER_ACTIONS.SET_NOTIFICATION,
+      payload: { notification: reminder },
+    });
+  } catch (error) {
+    dispatch({
+      type: REMINDER_ACTIONS.REMINDER_ERROR,
+      payload: { error: error.message },
+    });
+  }
+};
 
 // Creates a reminder or updates an existing one, depending on whether
 // reminder.id is present.
@@ -23,6 +48,7 @@ const updateReminder = (dispatch) => async (reminder) => {
       reminder.createdAt = new Date().toISOString();
       reminder.lastNotificationAt = new Date().toISOString();
     }
+    console.log('reminder:', reminder);
     reminder.updatedAt = new Date().toISOString();
     const serialized = JSON.stringify(reminder);
     await AsyncStorage.setItem(reminder.id, serialized);
@@ -30,11 +56,25 @@ const updateReminder = (dispatch) => async (reminder) => {
       type: REMINDER_ACTIONS.UPDATE_REMINDER,
       payload: { reminder },
     });
+    const timeInSeconds = parseInt(reminder.time) * 24 * 60 * 60;
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: `${reminder.label}`,
+        body: 'time to attend to your new bloom! 🌸',
+      },
+      trigger: { seconds: timeInSeconds },
+    });
+    dispatch({
+      type: REMINDER_ACTIONS.SET_NOTIFICATION,
+      payload: { notification: reminder },
+    });
+    return reminder;
   } catch (error) {
     dispatch({
       type: REMINDER_ACTIONS.REMINDER_ERROR,
       payload: { error: error.message },
     });
+    return null;
   }
 };
 
@@ -112,6 +152,8 @@ const createReminderActions = createActions({
   resetSelectedReminder,
   getReminder,
   getAllReminders,
+  // notification ones. move to own store
+  createNotification,
 });
 
 export default createReminderActions;

@@ -5,6 +5,8 @@ import { COLORS, VIEWS } from '../constants';
 
 import Time from '../components/Time';
 import { MODE_ACTIONS, useMode, useModeDispatch } from '../context/mode';
+import { RemindersContext } from '../context/ReminderContext';
+import { useEffect, useContext } from 'react';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,6 +36,12 @@ const styles = StyleSheet.create({
 const TopBar = () => {
   const mode = useMode();
   const dispatch = useModeDispatch();
+  const [reminderState, reminderActions] = useContext(RemindersContext);
+
+  useEffect(() => {
+    reminderActions.getAllReminders();
+  }, []);
+
   return (
     <>
       <View style={styles.container}>
