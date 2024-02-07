@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, SafeAreaView } from 'react-native';
 
 import { RemindersContext } from '../context/ReminderContext';
 import Reminder from '../components/Reminder';
 
 const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+  },
   container: {
     alignItems: 'center',
     width: '100%',
@@ -17,20 +20,19 @@ const Main = () => {
 
   const reminders =
     reminderState?.reminders && typeof reminderState.reminders === 'object'
-      ? reminderState.reminders
-      : {};
+      ? Object.values(reminderState.reminders)
+      : [];
 
-  const reminderComponents = Object.keys(reminders).map((reminderId, idx) => {
-    return (
-      <Reminder
-        key={reminderId}
-        idx={idx}
-        reminder={reminders[reminderId]}
+  return (
+    <SafeAreaView style={styles.view}>
+      <FlatList
+        data={reminders}
+        renderItem={({ item }) => <Reminder reminder={item} />}
+        keyExtractor={(reminder) => reminder.id}
+        extraData={reminderState}
       />
-    );
-  });
-
-  return <View style={styles.container}>{reminderComponents}</View>;
+    </SafeAreaView>
+  );
 };
 
 export default Main;

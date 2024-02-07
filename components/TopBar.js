@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 30,
     height: 100,
+    borderBottomColor: COLORS.white,
+    borderBottomWidth: 1,
   },
   title: {
     color: COLORS.white,

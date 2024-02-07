@@ -13,10 +13,10 @@ import Button from '../components/Button';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-start',
-    width: '100%',
     paddingVertical: 10,
     borderBottomColor: COLORS.white,
     borderBottomWidth: 1,
+    marginHorizontal: 20,
   },
   innerContainer: {
     flexDirection: 'row',
@@ -128,21 +128,18 @@ const getBloomEmoji = (time, lastNotificationAt) => {
     }
   }
 
-  console.log('percentToNextNotification', percentToNextNotification);
   return emoji;
 };
 
-const Reminder = ({ idx, reminder }) => {
+const Reminder = ({ reminder }) => {
   const { id, label, time, lastNotificationAt } = reminder;
   const dispatch = useModeDispatch();
   const [_, reminderActions] = useContext(RemindersContext);
-  console.log('label', label);
   const bloomFrequency = time === '1' ? 'every day' : `every ${time} days`;
   const nextBloomDays = timeUntilNextBloom(time, lastNotificationAt);
 
   return (
     <>
-      {idx === 0 && <Divider />}
       <View style={styles.container}>
         <Text style={styles.label}>{label}</Text>
         <View style={styles.innerContainer}>
